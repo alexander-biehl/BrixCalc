@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">BrixCalc</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="brix_to_sg_title">Convert Brix To Specific Gravity</string>
+    <string name="sg_to_brix_title">Convert Specific Gravity to Brix</string>
+    <string name="sg_str">Specific Gravity:</string>
+    <string name="brix_str">Brix:</string>
+    <string name="abv_str">Alcohol By Volume:</string>
+    <string name="percent_symbol">\u0025</string>
+    <string name="brix_radio_name">Brix -> S.G.</string>
+    <string name="sg_radio_name">S.G. -> Brix</string>
+    <string name="est_abv">Estimated Alcohol by Volume:</string>
+    <string name="val_to_convert">Enter value to convert</string>
+    <string name="update_str">Update</string>
+    <string name="output_str">%1$s \u0025\u0025</string>
+</resources>

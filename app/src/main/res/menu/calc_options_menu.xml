@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/brix_to_sg_menuItem"
+        android:title="Convert Brix To SG" />
+    <item android:id="@+id/sg_to_brix_menuItem"
+        android:title="Convert SG To Brix" />
+</menu>
