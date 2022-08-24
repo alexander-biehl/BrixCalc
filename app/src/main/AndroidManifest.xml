@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.alexbiehl.brixcalc">
+    package="com.alexbiehl.brixcalc" >
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/mining_calculator"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-
-        <activity android:name="com.alexbiehl.brixcalc.MainActivity"
-            android:screenOrientation="nosensor"
-            android:configChanges="keyboardHidden|orientation|screenSize">
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".MainActivity2"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
