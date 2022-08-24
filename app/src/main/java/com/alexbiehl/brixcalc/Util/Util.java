@@ -1,4 +1,4 @@
-package projects.brewers.amateur.com.brixcalc.Util;
+package com.alexbiehl.brixcalc.Util;
 
 /**
  * Created by alexb_000 on 7/26/2016.

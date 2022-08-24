@@ -1,9 +1,8 @@
-package projects.brewers.amateur.com.brixcalc;
+package com.alexbiehl.brixcalc;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,13 +14,17 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.Locale;
 
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import projects.brewers.amateur.com.brixcalc.Util.Util;
+import projects.brewers.amateur.com.brixcalc.R;
+
+import com.alexbiehl.brixcalc.Util.Util;
 
 public class MainActivity extends AppCompatActivity {
 

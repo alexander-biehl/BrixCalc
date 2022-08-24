@@ -1,4 +1,4 @@
-package projects.brewers.amateur.com.brixcalc;
+package com.alexbiehl.brixcalc;
 
 import org.junit.Test;
 
