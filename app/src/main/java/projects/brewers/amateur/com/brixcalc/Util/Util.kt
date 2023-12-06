@@ -1,16 +1,15 @@
-package projects.brewers.amateur.com.brixcalc.Util;
+package projects.brewers.amateur.com.brixcalc.Util
 
 /**
  * Created by alexb_000 on 7/26/2016.
  *
  * Utility class to calculate SG and Brix values
  */
-public final class Util {
-
+object Util {
     /**
      * Terminal gravity used in these equations, will make this configurable
      */
-    private static final double AVG_TERMINAL_GRAVITY = 1.015;
+    private const val AVG_TERMINAL_GRAVITY = 1.015
 
     /**
      * Takes a double Brix value and converts it to Specific Gravity.
@@ -20,8 +19,9 @@ public final class Util {
      * @param brix The double Brix value
      * @return double The specifc gravity
      */
-    public static double brixToSG(double brix) {
-        return (( brix / ( 258.6 - (( brix / 258.2 ) * 227.1 ))) + 1 );
+    @JvmStatic
+    fun brixToSG(brix: Double): Double {
+        return brix / (258.6 - brix / 258.2 * 227.1) + 1
     }
 
     /**
@@ -32,8 +32,9 @@ public final class Util {
      * @param sg The double Specific Gravity value
      * @return double The Brix value
      */
-    public static double sgToBrix(double sg) {
-        return ((( 182.4601 * sg - 775.6821 ) * sg + 1262.7794 ) * sg - 669.5622 );
+    @JvmStatic
+    fun sgToBrix(sg: Double): Double {
+        return ((182.4601 * sg - 775.6821) * sg + 1262.7794) * sg - 669.5622
     }
 
     /**
@@ -43,8 +44,8 @@ public final class Util {
      * @param fg Double the Final Gravity
      * @return the approximated ABV
      */
-    private static double approxAbvStdInternal(double og, double fg) {
-        return (og - fg) * 131.25;
+    private fun approxAbvStdInternal(og: Double, fg: Double): Double {
+        return (og - fg) * 131.25
     }
 
     /**
@@ -54,8 +55,8 @@ public final class Util {
      * @param og double The Original Gravity
      * @return double The approximate ABV
      */
-    public static double approxAbvStd(double og) {
-        return approxAbvStdInternal(og, AVG_TERMINAL_GRAVITY);
+    fun approxAbvStd(og: Double): Double {
+        return approxAbvStdInternal(og, AVG_TERMINAL_GRAVITY)
     }
 
     /**
@@ -64,8 +65,8 @@ public final class Util {
      * @param fg The user provided final gravity
      * @return double The approximate ABV
      */
-    public static double approxAbvStd(double og, double fg) {
-        return approxAbvStdInternal(og, fg);
+    fun approxAbvStd(og: Double, fg: Double): Double {
+        return approxAbvStdInternal(og, fg)
     }
 
     /**
@@ -75,8 +76,9 @@ public final class Util {
      * @param og double the original gravity
      * @return the approximate ABV
      */
-    public static double approxAbvAlt(double og) {
-        return approxAbvAltInternal(og, AVG_TERMINAL_GRAVITY);
+    @JvmStatic
+    fun approxAbvAlt(og: Double): Double {
+        return approxAbvAltInternal(og, AVG_TERMINAL_GRAVITY)
     }
 
     /**
@@ -87,8 +89,8 @@ public final class Util {
      * @param fg double the user-provided final gravity
      * @return the approximate ABV
      */
-    public static double approxAbvAlt(double og, double fg) {
-        return approxAbvAltInternal(og, fg);
+    fun approxAbvAlt(og: Double, fg: Double): Double {
+        return approxAbvAltInternal(og, fg)
     }
 
     /**
@@ -99,7 +101,7 @@ public final class Util {
      * @param fg double the final gravity
      * @return the approximate ABV
      */
-    private static double approxAbvAltInternal(double og, double fg) {
-        return (76.08 * (og - fg) / (1.775 - og)) * (fg / 0.794);
+    private fun approxAbvAltInternal(og: Double, fg: Double): Double {
+        return 76.08 * (og - fg) / (1.775 - og) * (fg / 0.794)
     }
 }
