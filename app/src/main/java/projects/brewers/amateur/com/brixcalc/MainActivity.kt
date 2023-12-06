@@ -1,76 +1,75 @@
-package projects.brewers.amateur.com.brixcalc;
+package projects.brewers.amateur.com.brixcalc
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.view.inputmethod.InputMethodManager
+import android.widget.Button
+import android.widget.EditText
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import butterknife.BindString
+import butterknife.BindView
+import butterknife.ButterKnife
+import butterknife.OnClick
+import projects.brewers.amateur.com.brixcalc.Util.Util.approxAbvAlt
+import projects.brewers.amateur.com.brixcalc.Util.Util.brixToSG
+import projects.brewers.amateur.com.brixcalc.Util.Util.sgToBrix
+import java.util.Locale
 
-import java.util.Locale;
-
-import butterknife.BindString;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import projects.brewers.amateur.com.brixcalc.Util.Util;
-
-public class MainActivity extends AppCompatActivity {
-
+class MainActivity : AppCompatActivity() {
     @BindView(R.id.table_title)
-     TextView tableTitle;
+    var tableTitle: TextView? = null
+
     @BindView(R.id.calc_param_lbl)
-     TextView calcParamLabel;
+    var calcParamLabel: TextView? = null
+
     @BindView(R.id.param_num_field)
-     EditText paramNumField;
+    var paramNumField: EditText? = null
+
     @BindView(R.id.update_button)
-     Button calculateButton;
+    var calculateButton: Button? = null
+
     @BindView(R.id.output_text_label)
-     TextView outputValueName;
+    var outputValueName: TextView? = null
+
     @BindView(R.id.output_val_field)
-     TextView outputValueField;
+    var outputValueField: TextView? = null
+
     @BindView(R.id.abv_output_field)
-     TextView abvOutputField;
+    var abvOutputField: TextView? = null
+
     @BindView(R.id.brix_radio)
-     RadioButton brixRadio;
+    var brixRadio: RadioButton? = null
+
     @BindView(R.id.sg_radio)
-     RadioButton sgRadio;
+    var sgRadio: RadioButton? = null
+
     @BindView(R.id.radio_group)
-     RadioGroup radios;
+    var radios: RadioGroup? = null
 
     //String resources
     @BindString(R.string.brix_to_sg_title)
-    String brix_to_sg;
+    var brix_to_sg: String? = null
+
     @BindString(R.string.sg_to_brix_title)
-    String sg_to_brix;
+    var sg_to_brix: String? = null
+
     @BindString(R.string.brix_str)
-    String brix_str;
+    var brix_str: String? = null
+
     @BindString(R.string.sg_str)
-    String sg_str;
+    var sg_str: String? = null
 
-    /** State indicator if the calculator is converting brix to SG */
-    private static final int BRIX_TO_SG = 1;
-    /** State indicator if the calculator is converting SG to brix. */
-    private static final int SG_TO_BRIX = 2;
-
-    /** The current calculator state. */
-    private int curState = BRIX_TO_SG;
-
-    private static final String percent_symbol = "\\u0025";
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+    /** The current calculator state.  */
+    private var curState = BRIX_TO_SG
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        ButterKnife.bind(this)
 
         /*radios.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -92,64 +91,53 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
             }
-        });*/
-        radios.setOnCheckedChangeListener((radioGroup, i) -> {
-            switch (i) {
-                case R.id.brix_radio:
-                    if (curState != BRIX_TO_SG) {
-                        curState = BRIX_TO_SG;
-                        setState(curState);
-                        clearOutputFields();
-                    }
-                    break;
-                case R.id.sg_radio:
-                    if (curState != SG_TO_BRIX) {
-                        curState = SG_TO_BRIX;
-                        setState(curState);
-                        clearOutputFields();
-                    }
-                    break;
+        });*/radios!!.setOnCheckedChangeListener { radioGroup: RadioGroup?, i: Int ->
+            when (i) {
+                R.id.brix_radio -> if (curState != BRIX_TO_SG) {
+                    curState = BRIX_TO_SG
+                    setState(curState)
+                    clearOutputFields()
+                }
+
+                R.id.sg_radio -> if (curState != SG_TO_BRIX) {
+                    curState = SG_TO_BRIX
+                    setState(curState)
+                    clearOutputFields()
+                }
             }
-        });
-
-        setState(curState);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.calc_options_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.brix_to_sg_menuItem:
-                if (curState != BRIX_TO_SG) {
-                    brixRadio.setChecked(true);
-                }
-                break;
-            case R.id.sg_to_brix_menuItem:
-                if (curState != SG_TO_BRIX) {
-                    sgRadio.setChecked(true);
-                }
         }
-        return super.onOptionsItemSelected(item);
+        setState(curState)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.calc_options_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.brix_to_sg_menuItem -> if (curState != BRIX_TO_SG) {
+                brixRadio!!.isChecked = true
+            }
+
+            R.id.sg_to_brix_menuItem -> if (curState != SG_TO_BRIX) {
+                sgRadio!!.isChecked = true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
     //TODO need to add onPause and onResume methods
     // maybe not, seems like it is doing it itself
     //save the current values so that when the app is resumed
     //it will reopen with the previous calculations values
-
     /**
      * Clears the output text boxes
      */
-    private void clearOutputFields() {
-        paramNumField.setText("");
-        outputValueField.setText("");
-        abvOutputField.setText("");
+    private fun clearOutputFields() {
+        paramNumField!!.setText("")
+        outputValueField!!.text = ""
+        abvOutputField!!.text = ""
     }
 
     /**
@@ -157,51 +145,52 @@ public class MainActivity extends AppCompatActivity {
      * converts them to the appropriate format
      *
      */
-    @SuppressWarnings("All")
-    @OnClick(R.id.update_button) void onCalcClick() {
-        Double input = null;
-        if (!paramNumField.getText().toString().equals("")) {
-            input = Double.parseDouble(paramNumField.getText().toString());
+    @OnClick(R.id.update_button)
+    fun onCalcClick() {
+        var input: Double? = null
+        input = if (paramNumField!!.text.toString() != "") {
+            paramNumField!!.text.toString().toDouble()
         } else {
-            Toast.makeText(getApplicationContext(),
-                    "Please Enter a Value", Toast.LENGTH_LONG).show();
-            return;
+            Toast.makeText(
+                applicationContext,
+                "Please Enter a Value", Toast.LENGTH_LONG
+            ).show()
+            return
         }
-        Resources res = getResources();
+        val res = resources
+        when (curState) {
+            BRIX_TO_SG -> {
+                val sg = brixToSG(input)
+                outputValueField!!.text = String.format(
+                    Locale.US,
+                    "%s",
+                    roundThousands(sg)
+                )
+                abvOutputField!!.text = res.getString(
+                    R.string.output_str,
+                    roundHundreds(approxAbvAlt(sg))
+                )
+            }
 
-        switch (curState) {
-            case BRIX_TO_SG:
-                double sg = Util.brixToSG(input);
-                outputValueField.setText(
-                        String.format(
-                                Locale.US,
-                                "%s",
-                                roundThousands(sg)));
-                abvOutputField.setText(
-                        res.getString(
-                                R.string.output_str,
-                                roundHundreds(Util.approxAbvAlt(sg))));
-                break;
-            case SG_TO_BRIX:
-                outputValueField.setText(
-                        String.format(
-                                Locale.US,
-                                "%s",
-                                roundThousands(Util.sgToBrix(input))));
-                abvOutputField.setText(
-                        res.getString(
-                                R.string.output_str,
-                                roundHundreds(Util.approxAbvAlt(input))));
-                break;
+            SG_TO_BRIX -> {
+                outputValueField!!.text = String.format(
+                    Locale.US,
+                    "%s",
+                    roundThousands(sgToBrix(input))
+                )
+                abvOutputField!!.text = res.getString(
+                    R.string.output_str,
+                    roundHundreds(approxAbvAlt(input))
+                )
+            }
         }
         /*try {*/
-            InputMethodManager inputManager = (InputMethodManager)
-                    getSystemService(Context.INPUT_METHOD_SERVICE);
-                                                //This is better than calling getCurrentFocus().
-                                                //getWindowToken() because it avoids the edge case
-                                                //where current focus has been lost, resulting in a
-                                                //NPE
-            inputManager.hideSoftInputFromWindow(paramNumField.getWindowToken(), 0);
+        val inputManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        //This is better than calling getCurrentFocus().
+        //getWindowToken() because it avoids the edge case
+        //where current focus has been lost, resulting in a
+        //NPE
+        inputManager.hideSoftInputFromWindow(paramNumField!!.windowToken, 0)
         /*} catch (NullPointerException e) {
             //caught because the Keyboard was already hidden.  don't need to do anything
         }*/
@@ -211,17 +200,19 @@ public class MainActivity extends AppCompatActivity {
      * Sets the widget state, which calculator is being shown
      * @param state
      */
-    private void setState(int state) {
-        switch (state) {
-            case BRIX_TO_SG:
-                tableTitle.setText(brix_to_sg);
-                calcParamLabel.setText(brix_str);
-                outputValueName.setText(sg_str);
-                break;
-            case SG_TO_BRIX:
-                tableTitle.setText(sg_to_brix);
-                calcParamLabel.setText(sg_str);
-                outputValueName.setText(brix_str);
+    private fun setState(state: Int) {
+        when (state) {
+            BRIX_TO_SG -> {
+                tableTitle!!.text = brix_to_sg
+                calcParamLabel!!.text = brix_str
+                outputValueName!!.text = sg_str
+            }
+
+            SG_TO_BRIX -> {
+                tableTitle!!.text = sg_to_brix
+                calcParamLabel!!.text = sg_str
+                outputValueName!!.text = brix_str
+            }
         }
     }
 
@@ -230,11 +221,10 @@ public class MainActivity extends AppCompatActivity {
      * @param val The double value
      * @return double rounded to thousands place
      */
-    private double roundThousands(double val) {
-        double tmp = val * 1000;
-        double rnd = Math.round(tmp);
-        double fin = rnd / 1000;
-        return fin;
+    private fun roundThousands(`val`: Double): Double {
+        val tmp = `val` * 1000
+        val rnd = Math.round(tmp).toDouble()
+        return rnd / 1000
     }
 
     /**
@@ -242,10 +232,18 @@ public class MainActivity extends AppCompatActivity {
      * @param val The double value
      * @return the rounded double
      */
-    private double roundHundreds(double val) {
-        double tmp = val * 100;
-        double rnd = Math.round(tmp);
-        double fin = rnd / 100;
-        return fin;
+    private fun roundHundreds(`val`: Double): Double {
+        val tmp = `val` * 100
+        val rnd = Math.round(tmp).toDouble()
+        return rnd / 100
+    }
+
+    companion object {
+        /** State indicator if the calculator is converting brix to SG  */
+        private const val BRIX_TO_SG = 1
+
+        /** State indicator if the calculator is converting SG to brix.  */
+        private const val SG_TO_BRIX = 2
+        private const val percent_symbol = "\\u0025"
     }
 }
