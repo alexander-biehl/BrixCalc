@@ -4,7 +4,7 @@ apply plugin: 'org.jetbrains.kotlin.android'
 
 android {
     namespace 'projects.brewers.amateur.com.brixcalc'
-    compileSdkVersion 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "projects.brewers.amateur.com.brixcalc"
