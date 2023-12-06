@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">BrixCalc</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="brix_to_sg">Brix to SG</string>
+    <string name="sg_to_brix">SG to Brix</string>
 </resources>
