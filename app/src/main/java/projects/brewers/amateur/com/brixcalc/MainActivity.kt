@@ -3,7 +3,9 @@ package projects.brewers.amateur.com.brixcalc
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
@@ -53,7 +56,8 @@ class MainActivity : ComponentActivity() {
 fun BrixCalcApp(modifier: Modifier = Modifier) {
     var brixToSgSelected by remember { mutableStateOf(true) }
     var input by remember { mutableStateOf("") }
-    var buttonLabel = Text(text = "Placeholder")
+
+    val calculatedResult = 0.0
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -77,6 +81,11 @@ fun BrixCalcApp(modifier: Modifier = Modifier) {
             onCalculateClicked = { /*TODO*/ },
             onCancelClicked = { },
             isBrix = brixToSgSelected == true
+        )
+
+        CalculatorOutput(
+            calculatedValue = calculatedResult.toString(),
+            modifier = Modifier.fillMaxWidth()
         )
     }
 }
@@ -136,11 +145,21 @@ fun CalculatorInput(
 @Composable
 fun CalculatorOutput(
     calculatedValue: String = "",
-    isBrix: Boolean,
     modifier: Modifier = Modifier
 ) {
-    Card {
-
+    Card(
+        modifier = modifier
+    ) {
+        Text(
+            text = stringResource(R.string.result_label),
+            style = MaterialTheme.typography.labelMedium
+        )
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.border(width = 1.dp, color = Color.Black)
+        ) {
+            Text(text = calculatedValue)
+        }
     }
 }
 
