@@ -7,7 +7,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -19,7 +27,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import projects.brewers.amateur.com.brixcalc.ui.theme.BrixCalcTheme
 
 class MainActivity : ComponentActivity() {
@@ -43,23 +53,119 @@ class MainActivity : ComponentActivity() {
 fun BrixCalcApp(modifier: Modifier = Modifier) {
     var brixToSgSelected by remember { mutableStateOf(true) }
     var input by remember { mutableStateOf("") }
+    var buttonLabel = Text(text = "Placeholder")
 
-    Column(modifier = modifier) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceEvenly,
+        modifier = modifier
+    ) {
+
+        Text(
+            text = stringResource(id = R.string.app_name),
+            style = MaterialTheme.typography.titleLarge
+        )
+
+        Radios(
+            brixToSgSelected,
+            onRadioClicked = { brixToSgSelected = !brixToSgSelected },
+            modifier = Modifier.padding(16.dp)
+        )
+        CalculatorInput(
+            userInput = input,
+            onUserInput = { },
+            onCalculateClicked = { /*TODO*/ },
+            onCancelClicked = { },
+            isBrix = brixToSgSelected == true
+        )
+    }
+}
+
+@Composable
+fun CalculatorInput(
+    userInput: String,
+    onUserInput: (String) -> Unit,
+    onCalculateClicked: () -> Unit,
+    onCancelClicked: () -> Unit,
+    isBrix: Boolean,
+    modifier: Modifier = Modifier
+) {
+    Card(modifier = modifier) {
+        Column {
+            OutlinedTextField(
+                value = userInput,
+                onValueChange = onUserInput,
+                label = {
+                    if (isBrix) {
+                        Text(text = stringResource(id = R.string.brix_to_sg))
+                    } else {
+                        Text(text = stringResource(id = R.string.sg_to_brix))
+                    }
+                },
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = { onCalculateClicked() }
+                ),
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
+                Button(
+                    onClick = onCalculateClicked,
+                    modifier = Modifier.padding(8.dp)
+                ) {
+                    Text(text = stringResource(R.string.submit_button))
+                }
+
+                OutlinedButton(
+                    onClick = onCancelClicked,
+                    modifier = Modifier.padding(8.dp)
+                ) {
+                    Text(text = stringResource(R.string.cancel_button))
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun CalculatorOutput(
+    calculatedValue: String = "",
+    isBrix: Boolean,
+    modifier: Modifier = Modifier
+) {
+    Card {
+
+    }
+}
+
+@Composable
+fun Radios(
+    brixToSgSelected: Boolean,
+    onRadioClicked: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Card {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
+            horizontalArrangement = Arrangement.Center,
+            modifier = modifier
         ) {
-            RadioButton(selected = brixToSgSelected, onClick = {
-                if (!brixToSgSelected) {
-                    brixToSgSelected = true
-                }
-            })
+            RadioButton(
+                selected = brixToSgSelected,
+                onClick = onRadioClicked
+            )
             Text(text = stringResource(R.string.brix_to_sg))
-            RadioButton(selected = !brixToSgSelected, onClick = {
-                if (brixToSgSelected) {
-                    brixToSgSelected = false
-                }
-            })
+
+            RadioButton(
+                selected = !brixToSgSelected,
+                onClick = onRadioClicked
+            )
             Text(text = stringResource(R.string.sg_to_brix))
         }
     }
