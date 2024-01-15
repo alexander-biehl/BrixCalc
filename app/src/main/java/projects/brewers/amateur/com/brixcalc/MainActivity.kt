@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -57,35 +59,50 @@ fun BrixCalcApp(modifier: Modifier = Modifier) {
     var brixToSgSelected by remember { mutableStateOf(true) }
     var input by remember { mutableStateOf("") }
 
+    val inputValue = input.toDoubleOrNull()
+
     val calculatedResult = 0.0
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceEvenly,
+        verticalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
     ) {
 
-        Text(
-            text = stringResource(id = R.string.app_name),
-            style = MaterialTheme.typography.titleLarge
-        )
 
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(64.dp)
+        ) {
+            Text(
+                text = stringResource(id = R.string.app_name),
+                style = MaterialTheme.typography.titleLarge
+            )
+        }
         Radios(
             brixToSgSelected,
             onRadioClicked = { brixToSgSelected = !brixToSgSelected },
             modifier = Modifier.padding(16.dp)
         )
+
+        Spacer(modifier = Modifier)
+
+        CalculatorOutput(
+            calculatedValue = calculatedResult.toString(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(128.dp)
+        )
+        Spacer(modifier = Modifier)
+
         CalculatorInput(
             userInput = input,
             onUserInput = { },
             onCalculateClicked = { /*TODO*/ },
             onCancelClicked = { },
-            isBrix = brixToSgSelected == true
-        )
-
-        CalculatorOutput(
-            calculatedValue = calculatedResult.toString(),
-            modifier = Modifier.fillMaxWidth()
+            isBrix = brixToSgSelected,
+            modifier = Modifier
         )
     }
 }
@@ -100,7 +117,10 @@ fun CalculatorInput(
     modifier: Modifier = Modifier
 ) {
     Card(modifier = modifier) {
-        Column {
+        Column(
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
             OutlinedTextField(
                 value = userInput,
                 onValueChange = onUserInput,
@@ -150,15 +170,28 @@ fun CalculatorOutput(
     Card(
         modifier = modifier
     ) {
-        Text(
-            text = stringResource(R.string.result_label),
-            style = MaterialTheme.typography.labelMedium
-        )
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier.border(width = 1.dp, color = Color.Black)
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxSize()
         ) {
-            Text(text = calculatedValue)
+            Row {
+                Text(
+                    text = stringResource(R.string.result_label),
+                    style = MaterialTheme.typography.labelMedium
+                )
+            }
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.border(width = 1.dp, color = Color.Black)
+                ) {
+                    Text(text = calculatedValue)
+                }
+            }
         }
     }
 }
@@ -195,5 +228,6 @@ fun Radios(
 fun GreetingPreview() {
     BrixCalcTheme {
         BrixCalcApp(modifier = Modifier.fillMaxSize())
+        // BrixCalcApp()
     }
 }
